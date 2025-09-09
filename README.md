@@ -1,74 +1,42 @@
-# real_ai
-This is wheer im going to keep all of the hw assignments. This time im going to do it right lol and keep it organized. 
+# A* Search for 8-Puzzle
 
+Simple A* search implementation with multiple heuristics for solving 8-puzzle problems.
 
-# simple_search — Reports CLI
+## Usage
 
-This repository provides a small search library and a reports CLI for the Wolf-Goat-Cabbage (WGC) domain.
-
-## Install (editable / development)
-
-Create a virtual environment and install the package in editable mode:
+Run A* search with different heuristics:
 
 ```bash
-python -m venv .venv
-.venv/bin/pip install --upgrade pip
-.venv/bin/pip install -e .
-```
+# UCS baseline (h=0)
+python -m simple_search.reports.run_reports ucs
 
-Installing editable (`pip install -e .`) makes the `run-reports` console script available locally.
+# A* with Manhattan Distance
+python -m simple_search.reports.run_reports h1
 
-## Run the reports CLI
+# A* with Linear Conflict + Manhattan
+python -m simple_search.reports.run_reports h2
 
-There are two algorithms supported: `bfs` and `ids`.
+## Custom Start States
 
-Usage (help):
-
-```bash
-python -m run_reports -h
-# or after installation
-run-reports -h
-```
-
-Example: run BFS on the three built-in example start states:
+Specify a custom 8-puzzle start state using `--start` with 9 digits (0-8):
 
 ```bash
-python -m run_reports bfs
+# Run Manhattan Distance on custom puzzle
+python -m simple_search.reports.run_reports --start 123405678 h1
+
+# Run UCS on custom puzzle  
+python -m simple_search.reports.run_reports --start 123405678 ucs
 ```
 
-Run IDS:
+## Heuristics
+
+- **ucs**: Uniform Cost Search (h=0) - baseline
+- **h1**: Manhattan Distance - admissible and consistent
+- **h2**: Linear Conflict + Manhattan - stronger admissible
+
+## Help
 
 ```bash
-python -m run_reports ids
+python -m simple_search.reports.run_reports --help
 ```
-
-Specify a custom start state using `--start` with 4 characters `L` or `R` (farmer, wolf, goat, cabbage). This is a global option available at the top-level and applies to both `bfs` and `ids` subcommands.
-
-Examples:
-
-```bash
-# run BFS on a custom start
-python -m run_reports bfs --start LLLL
-# or after installation
-run-reports ids --start RLRR
-```
-
-## Makefile helper
-
-You can use the Makefile target to run both reports (it will create a `.venv` if missing):
-
-```bash
-make run_reports
-```
-
-This runs the CLI for both `bfs` and `ids` using the three built-in example start states and prints output to stdout.
-
-## Where results are stored
-
-Example combined results are available in `doc/results.md` (generated during development).
-
-## Notes
-
-- The package exposes the CLI entry point `run-reports` via `pyproject.toml`.
-- To run the CLI after installation without `python -m`, use `run-reports bfs` or `run-reports ids`.
 
