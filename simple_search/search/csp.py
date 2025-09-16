@@ -7,11 +7,6 @@ class CSP:
         self.constraints = constraints
         self.solution = None
 
-    def solve(self):
-        assignment = {}
-        self.solution = self.backtrack(assignment)
-        return self.solution
-
     def backtrack(self, assignment):
         if len(assignment) == len(self.variables):
             return assignment
@@ -36,6 +31,7 @@ class CSP:
     def is_consistent(self, var, value, assignment):
         for constraint_var in self.constraints[var]:
             if constraint_var in assignment and assignment[constraint_var] == value:
+
                 return False
         return True
     
@@ -58,10 +54,6 @@ class CSP:
 # Define Variables, domains and constraints
 variables = [(i, j) for i in range(9) for j in range(9)]
 
-domains = {
-    var: set(range(1, 10)) if puzzle[var[0]][var[1]] == 0 else {puzzle[var[0]][var[1]]}
-    for var in variables
-}
 
 constraints = {}
 
@@ -80,4 +72,3 @@ def add_constraint(var):
 
 for var in variables:
     add_constraint(var)
-    
